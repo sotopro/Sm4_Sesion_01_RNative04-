@@ -124,13 +124,100 @@ getUsers(true)
 
 
 // Fetch a user from the GitHub API
-fetch('https://api.github.com/users/sotopro')
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((error) => {
-        console.error(error);
-    })
+// fetch('https://api.github.com/users/sotopro')
+//     .then((response) => {
+//         return response.json();
+//     })
+//     .then((data) => {
+//         console.log(data);
+//     })
+//     .catch((error) => {
+//         console.error(error);
+//     })
+
+// ES5: Part 1
+
+// var isMomHappy = false;
+
+// // promise
+// var willIGetNewPhone = new Promise(
+//     function(resolve, reject){
+//         if(isMomHappy){
+//             var phone = {
+//                 brand: 'Samsung',
+//                 color: 'black',
+//                 since: 2020
+//             };
+//             resolve(phone); // fulfilled
+//         } else {
+//             var reason = new Error('mom is not happy');
+//             reject(reason); // reject
+//         }
+//     }
+// )
+
+// var askMom = function(){
+//     willIGetNewPhone
+//         .then(function(fullfilled) {
+//             console.log(fullfilled);
+//         })
+//         .catch(function (error){
+//             console.log(error.message);
+//         })
+// }
+
+// askMom();
+ // ES6 
+const isMomHappy = true;
+
+const willIGetNewPhone = new Promise(
+    (resolve, reject) => {
+        if(isMomHappy) {
+            const phone = {
+                brand: 'Samsung Galaxy S10',
+                color: 'black',
+                since: 2020
+            };
+            resolve(phone);
+        } else {
+            const reason = new Error('mom is not happy');
+            reject(reason);
+        }
+    }
+);
+
+// const showOff = (phone) => {
+//     const message = `Hey friend, I have a new ${phone.color} ${phone.brand} phone`;
+//     return Promise.resolve(message);
+// }
+
+async function showOff(phone) {
+    return new Promise((resolve, reject) => {
+        const message = `Hey friend, I have a new ${phone.color} ${phone.brand} phone`;
+        resolve(message);
+    });
+}
+
+async function askMom() {
+    try{
+        console.log('before asking Mom');
+        let phone = await willIGetNewPhone;
+        let message = await showOff(phone);
+        console.log(message);
+        console.log('after asking Mom');
+    } catch(error) {
+        console.log(error.message);
+    }
+}
+(async () => {
+    await askMom();
+})();
+
+// const askMom = () => {
+//     willIGetNewPhone
+//         .then(showOff)
+//         .then(fullfilled => console.log(fullfilled))
+//         .catch(error => console.log(error.message));
+// }
+
+// askMom();
